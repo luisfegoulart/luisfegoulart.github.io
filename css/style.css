@@ -1,0 +1,202 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    font-family:"JetBrains Mono", monospace;
+    min-height:100vh;
+}
+
+/* =========================
+   HOME
+   ========================= */
+
+body:not(.static-page){
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+main{
+    text-align:center;
+}
+
+pre{
+    color:#fff;
+    font-size:15px;
+    line-height:1;
+    margin-bottom:30px;
+}
+
+.subtitle{
+    font-size:16px;
+    margin-bottom:50px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.menu a{
+    color:#fff;
+    text-decoration:underline;
+    font-size:16px;
+    margin:4px 0;
+    transition:.2s;
+}
+
+.menu a:hover,
+.home:hover{
+    opacity:.7;
+}
+
+
+/* =========================
+   ABOUTME / FILE PAGES
+   ========================= */
+
+.static-page{
+    display:flex;
+    justify-content:flex-start;
+    align-items:flex-start;
+}
+
+.page{
+    width:700px;
+    min-height:100vh;
+
+    margin-left:70px;
+    padding:70px 0 40px 45px;
+
+    border-left:2px solid #fff;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.content{
+    flex:1;
+    text-align:left;
+}
+
+.content p{
+    font-size:17px;
+    line-height:1.8;
+    margin-bottom:20px;
+}
+
+.home{
+    color:#fff;
+    text-decoration:underline;
+    font-size:16px;
+    align-self:flex-end;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media(max-width:700px){
+
+    pre{
+        font-size:8px;
+    }
+
+    .subtitle{
+        font-size:13px;
+        margin-bottom:40px;
+    }
+
+    .menu a{
+        font-size:16px;
+    }
+
+    .page{
+        width:90%;
+        margin:20px;
+        padding:35px 0 25px 20px;
+    }
+
+    .content p{
+        font-size:15px;
+    }
+
+}
+/* =========================
+   POSTS
+   ========================= */
+
+.posts-page{
+    width:700px;
+    min-height:100vh;
+
+    margin-left:70px;
+    padding:70px 0 40px 45px;
+
+    border-left:2px solid #fff;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.posts-content{
+    flex:1;
+}
+
+.post-card{
+    padding:28px 0;
+    border-bottom:1px solid #2d2d2d;
+}
+
+.post-card:last-child{
+    border-bottom:none;
+}
+
+.post-card a{
+    color:#fff;
+    text-decoration:none;
+    display:block;
+}
+
+.post-card h2{
+    font-size:22px;
+    font-weight:400;
+    margin-bottom:10px;
+}
+
+.post-card p{
+    font-size:16px;
+    color:#bdbdbd;
+    line-height:1.6;
+    margin-bottom:15px;
+}
+
+.post-card small{
+    color:#7d7d7d;
+    font-size:14px;
+}
+
+@media(max-width:700px){
+
+    .posts-page{
+        width:90%;
+        margin:20px;
+        padding:35px 0 25px 20px;
+    }
+
+    .post-card h2{
+        font-size:18px;
+    }
+
+    .post-card p{
+        font-size:15px;
+    }
+
+}

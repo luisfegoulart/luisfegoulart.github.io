@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+    <title>Quando analisar JavaScript revelou uma falha de controle de acesso</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+
+<body class="static-page">
+
+    <main class="page">
+
+        <section class="content">
+
+            <h1>
+               Seguindo Rastros 
+            </h1>
+            <br>
+            <p>
+                Durante meus estudos de segurança web, uma coisa que sempre chamou minha atenção é entender como uma aplicação realmente funciona por trás dos panos.
+                <br><br>
+
+                Muitas vezes, a interface é apenas a parte mais visível de uma aplicação. Por trás de cada botão, formulário e página existem chamadas, endpoints e regras responsáveis por fazer tudo funcionar.
+                <br><br>
+
+                E explorando a aplicação encontrei uma funcionalidade que não estava exposta diretamente para os usuários, mas que revelou uma falha de autorização em uma aplicação interna.
+            </p>
+            
+            <h2>
+                Começando a investigação
+            </h2>
+            <br>
+            <p>
+                A aplicação utilizava Angular como framework no frontend, oque me fez querer olhar os arquivos JavaScript carregados pelo navegador.
+                <br><br>
+
+                A ideia não era simplesmente procurar uma vulnerabilidade, mas entender melhor a estrutura da aplicação:
+                <br>
+
+                - quais endpoints eram utilizados
+                <br>
+                -  como as funcionalidades eram implementadas
+                <br>
+                - quais informações estavam disponíveis no lado do cliente
+                <br><br>
+
+                Durante essa análise, encontrei uma função chamada createUser() responsável pela criação de usuários.
+                <br><br>
+
+                Ao acompanhar seu funcionamento, identifiquei uma chamada para o endpoint: /new/edit
+                <br>
+
+            <h2>
+                Indo além da interface
+            </h2>
+            <br>
+
+            <p>
+                Uma característica interessante em aplicações web é que uma funcionalidade não deixa de existir apenas porque um botão não está visível para determinado usuário.
+                <br><br>
+                Ao testar esse endpoint, percebi que ele permitia acessar uma funcionalidade que normalmente estaria restrita a usuários administrativos.
+                <br><br>
+                A falha ficou mais clara quando observei que a funcionalidade permitia criar novos usuários e controlar informações que deveriam ser restritas, como o nível de acesso da conta criada.
+                <br><br>
+                Isso significava que um usuário sem privilégios administrativos poderia executar uma ação que deveria estar protegida por uma validação de autorização.
+            </p>
+
+
+            <h2>
+                Entendendo a causa
+            </h2>
+
+
+            <p>
+                O problema não estava na existência de uma rota para criação de usuários. Funcionalidades administrativas precisam existir dentro de uma aplicação.
+                <br><br>
+             A falha estava na forma como essa funcionalidade era protegida. A aplicação não realizava uma validação adequada de autorização no backend antes de permitir a execução da ação.
+            </p>
+            <h2>
+                O que aprendi com essa descoberta
+            </h2>
+            <br>
+            <p>
+                Essa foi uma das situações que reforçou algo que venho estudando. Nem sempre uma vulnerabilidade está em uma técnica complexa.
+                <br><br>
+
+                Muitas vezes, ela aparece quando questionamos o funcionamento da aplicação:
+                <br><br>
+
+                "Essa funcionalidade realmente deveria estar disponível para esse usuário?"
+                <br><br>
+
+                A análise de JavaScript, o entendimento da comunicação entre frontend e backend e a busca por falhas de lógica são partes que considero muito interessantes.
+                <br><br>
+                No fim, muitas falhas começam com uma simples curiosidade.
+            </p>
+
+
+        </section>
+
+
+        <a href="/posts/" class="home">
+            /posts
+        </a>
+
+
+    </main>
+
+</body>
+
+</html>
