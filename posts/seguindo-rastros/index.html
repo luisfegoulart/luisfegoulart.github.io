@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
-    <title>O que o JavaScript revela</title>
-
+    <title>O que o JavaScript pode revelar</title>
     <link rel="stylesheet" href="../../css/style.css">
 </head>
 
@@ -16,60 +15,80 @@
 
         <section class="content">
 
-            <h1>O que o JavaScript revela</h1>
+            <h1>
+                O que o JavaScript pode revelar
+            </h1>
+            <br>
+            <p>
+                Durante meus estudos de segurança web, uma coisa que sempre chamou minha atenção é entender como uma
+                aplicação realmente funciona por trás dos panos.
+                <br><br>
+
+                Muitas vezes, a interface é apenas a parte mais visível de uma aplicação. Por trás de cada botão,
+                formulário e página existem chamadas, endpoints e regras responsáveis por fazer tudo funcionar.
+                <br><br>
+
+                E explorando a aplicação encontrei uma funcionalidade que não estava exposta diretamente para os
+                usuários, mas que revelou uma falha de autorização em uma aplicação interna.
+            </p>
 
             <br>
+            <p>
+                A aplicação utilizava Angular como framework no frontend, oque me fez querer olhar os arquivos
+                JavaScript carregados pelo navegador.
+                <br><br>
+
+                A ideia não era simplesmente procurar uma vulnerabilidade, mas entender melhor a estrutura da aplicação:
+                <br>
+
+                - quais endpoints eram utilizados
+                <br>
+                - como as funcionalidades eram implementadas
+                <br>
+                - quais informações estavam disponíveis no lado do cliente
+                <br><br>
+
+                Durante essa análise, encontrei uma função chamada createUser() responsável pela criação de usuários.
+                <br><br>
+
+                Ao acompanhar seu funcionamento, identifiquei uma chamada para o endpoint: /new/edit
+                <br>
+                <br>
 
             <p>
-                Durante meus estudos de segurança web, uma coisa que sempre chamou minha atenção é entender como uma aplicação realmente funciona por trás dos panos.
+                Uma característica interessante em aplicações web é que uma funcionalidade não deixa de existir apenas
+                porque um botão não está visível para determinado usuário.
+                <br><br>
+                Ao testar esse endpoint, percebi que ele permitia acessar uma funcionalidade que normalmente estaria
+                restrita a usuários administrativos.
+                <br><br>
+                A falha ficou mais clara quando observei que a funcionalidade permitia criar novos usuários e controlar
+                informações que deveriam ser restritas, como o nível de acesso da conta criada.
+                <br><br>
+                Isso significava que um usuário sem privilégios administrativos poderia executar uma ação que deveria
+                estar protegida por uma validação de autorização.
+            </p>
+            <p>
+                O problema não estava na existência de uma rota para criação de usuários. Funcionalidades
+                administrativas precisam existir dentro de uma aplicação.
+                <br><br>
+                A falha estava na forma como essa funcionalidade era protegida. A aplicação não realizava uma validação
+                adequada de autorização no backend antes de permitir a execução da ação.
+            </p>
+            <br>
+            <p>
+                Essa foi uma das situações que reforçou algo que venho estudando. Nem sempre uma vulnerabilidade está em
+                uma técnica complexa.
                 <br><br>
 
-                Muitas vezes, a interface é apenas a parte mais visível de uma aplicação. Por trás de cada botão, formulário e página existem chamadas, endpoints e regras responsáveis por fazer tudo funcionar.
+                Muitas vezes, ela aparece quando questionamos o funcionamento da aplicação:
                 <br><br>
 
-                Foi justamente explorando uma aplicação que encontrei uma funcionalidade que não estava exposta diretamente aos usuários, mas que acabou revelando uma falha de autorização em uma aplicação interna.
+                "Essa funcionalidade realmente deveria estar disponível para esse usuário?"
                 <br><br>
 
-                A aplicação utilizava Angular como framework no frontend, o que me fez abrir os arquivos JavaScript carregados pelo navegador.
-                <br><br>
-
-                A ideia não era simplesmente procurar uma vulnerabilidade, mas entender melhor como aquela aplicação era construída. Quais endpoints eram utilizados? Como as funcionalidades eram implementadas? Quais informações estavam disponíveis no lado do cliente?
-                <br><br>
-
-                Durante essa análise, encontrei uma função chamada <code>createUser()</code>, responsável pela criação de usuários.
-                <br><br>
-
-                Ao acompanhar seu funcionamento, identifiquei uma chamada para o endpoint <code>/new/edit</code>.
-                <br><br>
-
-                Uma característica interessante em aplicações web é que uma funcionalidade não deixa de existir apenas porque um botão não está visível para determinado usuário.
-                <br><br>
-
-                Ao testar esse endpoint, percebi que ele permitia acessar uma funcionalidade normalmente restrita a usuários administrativos.
-                <br><br>
-
-                A situação ficou ainda mais clara quando observei que essa funcionalidade permitia criar novos usuários e definir informações sensíveis, como o nível de acesso da conta criada.
-                <br><br>
-
-                Na prática, isso significava que um usuário sem privilégios administrativos conseguia executar uma ação que deveria estar protegida por uma validação de autorização.
-                <br><br>
-
-                O problema não estava na existência da funcionalidade. Afinal, aplicações precisam de áreas administrativas.
-                <br><br>
-
-                A falha estava na ausência de uma validação adequada de autorização no backend antes da execução da ação.
-                <br><br>
-
-                Essa experiência reforçou algo que venho aprendendo durante meus estudos: nem sempre uma vulnerabilidade surge a partir de uma técnica complexa.
-                <br><br>
-
-                Muitas vezes, ela aparece quando simplesmente questionamos o funcionamento da aplicação:
-                <br><br>
-
-                <em>"Essa funcionalidade realmente deveria estar disponível para esse usuário?"</em>
-                <br><br>
-
-                É justamente isso que mais me interessa. Ler o JavaScript, entender a comunicação entre frontend e backend e questionar o comportamento da aplicação.
+                A análise de JavaScript, o entendimento da comunicação entre frontend e backend e a busca por falhas de
+                lógica são partes que considero muito interessantes.
                 <br><br>
 
                 No fim, muitas falhas começam com uma simples curiosidade.
