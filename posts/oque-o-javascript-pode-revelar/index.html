@@ -26,41 +26,27 @@
             </h2>
 
             <p>
-                Durante meus estudos de segurança em aplicações web, uma das coisas que mais chamou minha atenção foi
-                entender como aplicações modernas funcionam internamente e como pequenos detalhes de implementação
-                podem revelar problemas de segurança.
+                Nesse post quero contar sobre como encontrei uma vulnerabilidade extramamente simples, mas com um grande impacto, em uma aplicação web interna.
                 <br><br>
-
                 Para praticar os conhecimentos que vinha adquirindo, decidi analisar uma aplicação real sob uma
                 perspectiva de segurança.
                 <br><br>
-
-                Meu objetivo não era apenas encontrar vulnerabilidades, mas entender como a aplicação era construída,
-                como seus componentes se comunicavam e como os controles de segurança eram implementados.
             </p>
-
-            <br><br>
 
             <h2>
                 Explorando a Aplicação
             </h2>
 
             <p>
-                Comecei explorando a aplicação e tentando entender sua estrutura.
+                A aplicação analisada era uma SPA desenvolvida em Angular. Nesse tipo de aplicação, boa parte da lógica é executada no lado do cliente.
+                Por isso, o navegador precisa carregar os arquivos JavaScript responsáveis por controlar o comportamento da aplicação e realizar as chamadas para o backend.
                 <br><br>
-
                 Analisei requisições, observei como diferentes funcionalidades se comunicavam com o backend e
                 identifiquei as tecnologias utilizadas.
                 <br><br>
-
-                Durante essa análise, percebi que a aplicação utilizava <strong>Angular</strong> como framework no
-                frontend.
+                Isso significa que, ao analisar o código JavaScript, é possível descobrir informações importantes sobre a aplicação, como rotas, funções internas e comunicação com APIs.
                 <br><br>
-
-                Como frameworks modernos frequentemente carregam informações importantes sobre rotas, funções internas
-                e comunicação com APIs, decidi analisar os arquivos JavaScript carregados pelo navegador.
             </p>
-
             <br><br>
 
             <h2>
@@ -68,42 +54,20 @@
             </h2>
 
             <p>
-                Enquanto revisava o código JavaScript, comecei a procurar por funções interessantes, rotas expostas e
+                Enquanto revisava o código comecei a procurar por funções internas, rotas expostas e
                 possíveis fluxos ocultos da aplicação.
                 <br><br>
-
-                Durante essa análise, encontrei uma função chamada:
+                Durante essa análise, encontrei uma função chamada: isNewAgentRoute()
                 <br><br>
-
-                <code>
-                    createUser()
-                </code>
-
-                <br><br>
-
-                O nome da função chamou minha atenção, pois sugeria uma funcionalidade relacionada ao gerenciamento de
+                O nome da função chamou minha atenção, pois sugeria uma funcionalidade relacionada a criação de
                 usuários.
                 <br><br>
-
-                Ao acompanhar seu funcionamento, encontrei uma chamada para o endpoint:
+                Lendo seu funcionamento, encontrei uma referência a uma rota chamada /new/edit, que parecia ser responsável por criar novos usuários.
+                O código verificava se a aplicação estava nessa rota e, caso estivesse, inicializava o formulário de criação de um novo usuário.
                 <br><br>
-
-                <code>
-                    /new/edit
-                </code>
-
+                Então, adicionei manualmente a rota à URL da aplicação e acessei diretamente.
                 <br><br>
-
-                Nesse momento, quis entender se aquilo era apenas uma referência interna do frontend ou se o endpoint
-                realmente estava acessível.
-                <br><br>
-
-                Então, adicionei manualmente /new/edit à URL da aplicação e acessei a rota diretamente.
-                <br><br>
-
-                De forma inesperada, a aplicação carregou uma página de criação de usuários.
-            </p>
-
+            </p> 
             <br><br>
 
             <h2>
@@ -114,38 +78,24 @@
                 A página permitia criar um novo usuário e preencher informações como e-mail, nome, telefone e o cargo do usuário.
                 <br><br>
 
-                O que chamou minha atenção foi que minha conta atual não deveria possuir acesso a essa funcionalidade.
+                O problema é que minha conta atual não deveria possuir acesso a essa funcionalidade.
                 <br><br>
-
                 A interface da aplicação não apresentava essa opção para o meu usuário, porém, ao acessar a rota
-                diretamente, eu conseguia chegar até a página.
+                diretamente, eu conseguia chegar até a página de criação.
                 <br><br>
-
-                Nesse momento, percebi que a restrição existia apenas no frontend.
-                <br><br>
-
-                A aplicação escondia a funcionalidade dos usuários, mas o backend não realizava corretamente a
-                validação de autorização antes de permitir a execução da ação.
-                <br><br>
-
-                Foi então que confirmei que havia encontrado uma vulnerabilidade de
-                <strong>Broken Access Control</strong>.
+                Foi então que confirmei o problema: embora a funcionalidade estivesse oculta na interface para meu usuário, o backend não verificava corretamente se o usuário possuía autorização para acessar a funcionalidade.
             </p>
-
             <br><br>
 
             <h2>
                 Reportando o Problema
             </h2>
-
             <p>
                 Após confirmar o comportamento e criar uma Prova de Conceito,
                 demonstrando o problema, reportei a vulnerabilidade para a equipe responsável.
                 <br><br>
-
                 O problema foi analisado e posteriormente corrigido.
             </p>
-
             <br><br>
 
             <h2>
@@ -153,18 +103,11 @@
             </h2>
 
             <p>
-                Essa experiência reforçou a importância de analisar aplicações além do que está visível através da
-                interface do usuário.
+                Essa experiência reforçou a importância de conhecer as tecnologias utilizadas por uma aplicação e analisar códigos JavaScript carregados pelo navegador.
                 <br><br>
-
-                Aplicações web modernas possuem diversas camadas, e o frontend pode revelar informações valiosas sobre
-                rotas, lógica interna e possíveis superfícies de ataque.
-                <br><br>
-
                 Porém, a principal lição foi entender que segurança nunca deve depender apenas de esconder
                 funcionalidades dos usuários.
                 <br><br>
-
                 Uma funcionalidade que não está visível não significa que ela está protegida. Os controles de
                 autorização devem sempre ser aplicados no backend, onde a ação realmente é processada.
             </p>
