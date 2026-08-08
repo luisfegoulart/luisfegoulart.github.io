@@ -18,12 +18,11 @@
             <h1>
                 O que o JavaScript pode revelar
             </h1>
-            <br>
+            <br><br>
 
             <h2>
                 Introdução
             </h2>
-
             <p>
                 Nesse post quero contar sobre como encontrei uma vulnerabilidade extramamente simples, mas com um grande impacto, em uma aplicação web interna.
                 <br><br>
@@ -59,9 +58,8 @@
                 O código verificava se a aplicação estava nessa rota e, caso estivesse, inicializava o formulário de criação de um novo usuário.
                 <br><br>
                 Então, adicionei manualmente a rota à URL da aplicação e acessei diretamente.
-                <br><br>
+                <br>
             </p> 
-            <br><br>
 
             <h2>
                 A Descoberta
@@ -70,7 +68,6 @@
             <p>
                 A página permitia criar um novo usuário e preencher informações como e-mail, nome, telefone e o cargo do usuário.
                 <br><br>
-
                 O problema é que minha conta atual não deveria possuir acesso a essa funcionalidade.
                 <br><br>
                 A interface da aplicação não apresentava essa opção para o meu usuário, porém, ao acessar a rota
@@ -84,9 +81,7 @@
                 Reportando o Problema
             </h2>
             <p>
-                Após confirmar o comportamento e criar uma Prova de Conceito,
-                demonstrando o problema, reportei a vulnerabilidade para a equipe responsável.
-                <br><br>
+                Após confirmar o comportamento e criar uma Prova de Conceito, demonstrando o problema, reportei a vulnerabilidade para a equipe responsável.<br>
                 O problema foi analisado e posteriormente corrigido.
             </p>
             <br><br>
