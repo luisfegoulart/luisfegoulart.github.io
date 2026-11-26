@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <title>o que o javascript pode revelar - goulart</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="quando arquivos javascript revelaram mais do que deveriam." name="description" />
+    <link href="../../files/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="../../files/base.css?v=20261125-language-switch" rel="stylesheet" />
+    <link href="../../files/post.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="main">
+        <div class="content-wrap">
+            
+            <div class="top-bar">
+                <nav class="nav" aria-label="Navegação principal">
+                    <a href="../../index.html">início</a>
+                    <a href="../">posts</a>
+                    <a href="../../contact/">contato</a>
+                    <span class="language-switch" aria-label="seleção de idioma">
+                        <button type="button" data-language="pt-BR" aria-pressed="true">pt</button>
+                    <span aria-hidden="true">-</span>
+                    <button type="button" data-language="en-US" aria-pressed="false">en</button>
+                    </span>
+                </nav>
+            </div>
+            <header class="post-header">
+                <h1>o que o javascript pode revelar</h1>
+                <p>quando arquivos javascript revelaram mais do que deveriam</p>
+            </header>
+            <article>
+                <h2>introdução</h2>
+                <p>nesse post quero contar sobre como encontrei uma vulnerabilidade extremamente simples, mas com um
+                    grande impacto, em uma aplicação web interna.</p>
+                <h2>explorando a aplicação</h2>
+                <p>a aplicação analisada era uma spa desenvolvida em angular. nesse tipo de aplicação, boa parte da
+                    lógica é executada no lado do cliente. por isso, o navegador precisa carregar os arquivos javascript
+                    responsáveis por controlar o comportamento da aplicação e realizar as chamadas para o backend.</p>
+                <p>isso significa que, ao analisar o código javascript, é possível descobrir informações importantes
+                    sobre a aplicação, como rotas, funções internas e comunicação com apis.</p>
+                <h2>seguindo os rastros do javascript</h2>
+                <p>enquanto revisava o código comecei a procurar por funções internas, rotas expostas e possíveis fluxos
+                    ocultos da aplicação.</p>
+                <p>durante essa análise, encontrei uma função chamada: <code>isNewAgentRoute()</code></p>
+                <p>o nome da função chamou minha atenção, pois sugeria uma funcionalidade relacionada a criação de
+                    usuários.</p>
+                <p>lendo seu funcionamento, encontrei uma referência a uma rota chamada <code>/new/edit</code>, que
+                    parecia ser responsável por criar novos usuários. o código verificava se a aplicação estava nessa
+                    rota e, caso estivesse, inicializava o formulário de criação de um novo usuário.</p>
+                <p>então, adicionei manualmente a rota à url da aplicação e acessei diretamente.</p>
+                <h2>a descoberta</h2>
+                <p>a página permitia criar um novo usuário e preencher informações como e-mail, nome, telefone e o cargo
+                    do usuário.</p>
+                <p>o problema é que minha conta atual não deveria possuir acesso a essa funcionalidade.</p>
+                <p>a interface da aplicação não apresentava essa opção para o meu usuário, porém, ao acessar a rota
+                    diretamente, eu conseguia chegar até a página de criação.</p>
+                <p>foi então que confirmei o problema: embora a funcionalidade estivesse oculta na interface para meu
+                    usuário, o backend não verificava corretamente se o usuário possuía autorização para acessar a
+                    funcionalidade.</p>
+                <h2>reportando o problema</h2>
+                <p>após confirmar o comportamento e criar uma prova de conceito, demonstrando o problema, reportei a
+                    vulnerabilidade para a equipe responsável. o problema foi analisado e posteriormente corrigido.</p>
+                <h2>lições aprendidas</h2>
+                <p>essa experiência reforçou a importância de conhecer as tecnologias utilizadas por uma aplicação e
+                    analisar códigos javascript carregados pelo navegador.</p>
+                <p>porém, a principal lição foi entender que segurança nunca deve depender apenas de esconder
+                    funcionalidades dos usuários.</p>
+                <p>uma funcionalidade que não está visível não significa que ela está protegida. os controles de
+                    autorização devem sempre ser aplicados no backend, onde a ação realmente é processada.</p>
+            </article>
+        </div>
+    </div>
+    <script src="../../files/i18n.js" defer></script>
+</body>
+
+</html>
